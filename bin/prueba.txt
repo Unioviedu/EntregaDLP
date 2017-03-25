@@ -1,0 +1,25 @@
+main() {
+  var local: int;
+  var pepe: Persona;
+  var v:[10] int;
+
+  pepe.edad = 20;
+  read pepe.direccion.codigoPostal; 
+
+  local = 0;
+  while (local < 10 && local < 5) {
+   v[local] = dobleSuma(cast<int>(2.0 + h[0][3]), local);
+   local = local + 1;
+  }
+
+  if () {
+   	escribeEdad(a + local);
+    return;
+  } else {
+    b = 'R';
+  }
+
+  if (z != 2) {
+    escribeEdad(v[local][local]);
+  }
+}
