@@ -43,7 +43,18 @@ public class Asignacion extends AbstractSentencia {
 		return v.visit(this, param);
 	}
 
+	@Override
+	public DefFuncion getDefFuncion() {
+		return funcion;
+	}
+
+	@Override
+	public void setDefFuncion(DefFuncion funcion) {
+		this.funcion = funcion;
+	}
+	
 	private Expresion left;
 	private Expresion right;
+	private DefFuncion funcion;
 }
 

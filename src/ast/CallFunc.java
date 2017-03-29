@@ -5,6 +5,7 @@
 package ast;
 
 import java.util.*;
+
 import visitor.*;
 
 //	callFunc:expresion -> nombre:String  argumentos:expresion*
@@ -52,9 +53,31 @@ public class CallFunc extends AbstractExpresion {
 	public Object accept(Visitor v, Object param) { 
 		return v.visit(this, param);
 	}
+	
+	@Override
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	@Override
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+	
+	@Override
+	public boolean getModificable() {
+		return modificable;
+	}
+
+	@Override
+	public void setModificable(boolean modificable) {
+		this.modificable = modificable;
+	}
 
 	private String nombre;
 	private List<Expresion> argumentos;
 	private DefFuncion definicionFuncion;
+	private Tipo tipo;
+	private boolean modificable;
 }
 

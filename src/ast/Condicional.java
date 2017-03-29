@@ -54,8 +54,19 @@ public class Condicional extends AbstractSentencia {
 		return v.visit(this, param);
 	}
 
+	@Override
+	public DefFuncion getDefFuncion() {
+		return funcion;
+	}
+
+	@Override
+	public void setDefFuncion(DefFuncion funcion) {
+		this.funcion = funcion;
+	}
+	
 	private Expresion expresion;
 	private List<Sentencia> sentif;
 	private List<Sentencia> sentelse;
+	private DefFuncion funcion;
 }
 

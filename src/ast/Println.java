@@ -33,7 +33,18 @@ public class Println extends AbstractTraceable implements Imprimir, Sentencia {
 	public Object accept(Visitor v, Object param) { 
 		return v.visit(this, param);
 	}
+	
+	@Override
+	public DefFuncion getDefFuncion() {
+		return funcion;
+	}
+
+	@Override
+	public void setDefFuncion(DefFuncion funcion) {
+		this.funcion = funcion;
+	}
 
 	private Expresion expresion;
+	private DefFuncion funcion;
 }
 
