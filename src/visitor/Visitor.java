@@ -20,13 +20,12 @@ public interface Visitor {
 	public Object visit(StructType node, Object param);
 	public Object visit(ArrayType node, Object param);
 	public Object visit(Asignacion node, Object param);
+	public Object visit(CallFuncSent node, Object param);
 	public Object visit(Condicional node, Object param);
 	public Object visit(Bucle node, Object param);
 	public Object visit(Read node, Object param);
 	public Object visit(Return node, Object param);
 	public Object visit(Print node, Object param);
-	public Object visit(Printsp node, Object param);
-	public Object visit(Println node, Object param);
 	public Object visit(LiteralInt node, Object param);
 	public Object visit(LiteralReal node, Object param);
 	public Object visit(Caracter node, Object param);

@@ -8,9 +8,9 @@ import ast.*;
 import java.util.*;
 
 /*
-DefaultVisitor. Implementación base del visitor para ser derivada por nuevos visitor.
+DefaultVisitor. Implementaciï¿½n base del visitor para ser derivada por nuevos visitor.
 	No modificar esta clase. Para crear nuevos visitor usar el fichero "_PlantillaParaVisitors.txt".
-	DefaultVisitor ofrece una implementación por defecto de cada nodo que se limita a visitar los nodos hijos.
+	DefaultVisitor ofrece una implementaciï¿½n por defecto de cada nodo que se limita a visitar los nodos hijos.
 */
 public class DefaultVisitor implements Visitor {
 
@@ -98,6 +98,12 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
+	//	class CallFuncSent { String nombre;  List<Expresion> argumentos; }
+	public Object visit(CallFuncSent node, Object param) {
+		visitChildren(node.getArgumentos(), param);
+		return null;
+	}
+
 	//	class Condicional { Expresion expresion;  List<Sentencia> sentif;  List<Sentencia> sentelse; }
 	public Object visit(Condicional node, Object param) {
 		if (node.getExpresion() != null)
@@ -131,20 +137,6 @@ public class DefaultVisitor implements Visitor {
 
 	//	class Print { Expresion expresion; }
 	public Object visit(Print node, Object param) {
-		if (node.getExpresion() != null)
-			node.getExpresion().accept(this, param);
-		return null;
-	}
-
-	//	class Printsp { Expresion expresion; }
-	public Object visit(Printsp node, Object param) {
-		if (node.getExpresion() != null)
-			node.getExpresion().accept(this, param);
-		return null;
-	}
-
-	//	class Println { Expresion expresion; }
-	public Object visit(Println node, Object param) {
 		if (node.getExpresion() != null)
 			node.getExpresion().accept(this, param);
 		return null;
@@ -217,7 +209,7 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 	
-	// Método auxiliar -----------------------------
+	// Mï¿½todo auxiliar -----------------------------
 	protected void visitChildren(List<? extends AST> children, Object param) {
 		if (children != null)
 			for (AST child : children)

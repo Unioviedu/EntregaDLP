@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ast.ArrayType;
 import ast.CallFunc;
+import ast.CallFuncSent;
 import ast.DefCampoStruct;
 import ast.DefFuncion;
 import ast.DefVariable;
@@ -69,11 +71,19 @@ public class Identificacion extends DefaultVisitor {
 	}
 	
 	public Object visit(CallFunc node, Object param) {
-		super.visit(node, param);
 		
 		DefFuncion definicion = funciones.get(node.getNombre());
 		predicado(definicion != null, "Funcion no definida: " + node.getNombre(), node.getStart());
-		node.setDefinicionFuncion(definicion); // Enlazar referencia con definición
+		node.setDefFuncionInvoca(definicion); // Enlazar referencia con definición
+	
+		return null;
+	}
+	
+	public Object visit(CallFuncSent node, Object param) {
+		
+		DefFuncion definicion = funciones.get(node.getNombre());
+		predicado(definicion != null, "Funcion no definida: " + node.getNombre(), node.getStart());
+		node.setDefFuncionInvoca(definicion); // Enlazar referencia con definición
 		
 		return null;
 	}

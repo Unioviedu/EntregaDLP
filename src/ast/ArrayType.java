@@ -42,6 +42,11 @@ public class ArrayType extends AbstractTipo {
 	public Object accept(Visitor v, Object param) { 
 		return v.visit(this, param);
 	}
+	
+	@Override
+	public String toString() {
+		return "ArrayType";
+	}
 
 	private int dimension;
 	private Tipo tipo;

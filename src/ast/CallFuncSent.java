@@ -5,14 +5,13 @@
 package ast;
 
 import java.util.*;
-
 import visitor.*;
 
-//	callFunc:expresion -> nombre:String  argumentos:expresion*
+//	callFuncSent:sentencia -> nombre:String  argumentos:expresion*
 
-public class CallFunc extends AbstractExpresion {
+public class CallFuncSent extends AbstractSentencia {
 
-	public CallFunc(String nombre, List<Expresion> argumentos) {
+	public CallFuncSent(String nombre, List<Expresion> argumentos) {
 		this.nombre = nombre;
 		this.argumentos = argumentos;
 
@@ -20,7 +19,7 @@ public class CallFunc extends AbstractExpresion {
 	}
 
 	@SuppressWarnings("unchecked")
-	public CallFunc(Object nombre, Object argumentos) {
+	public CallFuncSent(Object nombre, Object argumentos) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getLexeme() : (String) nombre;
 		this.argumentos = (List<Expresion>) argumentos;
 
@@ -40,14 +39,6 @@ public class CallFunc extends AbstractExpresion {
 	public void setArgumentos(List<Expresion> argumentos) {
 		this.argumentos = argumentos;
 	}
-	
-	public void setDefFuncionInvoca(DefFuncion definicionFuncion) {
-		this.defFuncionInvoca = definicionFuncion;
-	}
-
-	public DefFuncion getDefFuncionInvoca() {
-		return defFuncionInvoca;
-	}
 
 	@Override
 	public Object accept(Visitor v, Object param) { 
@@ -55,29 +46,26 @@ public class CallFunc extends AbstractExpresion {
 	}
 	
 	@Override
-	public Tipo getTipo() {
-		return tipo;
+	public DefFuncion getDefFuncion() {
+		return funcion;
 	}
 
 	@Override
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
-	}
-	
-	@Override
-	public boolean getModificable() {
-		return modificable;
+	public void setDefFuncion(DefFuncion funcion) {
+		this.funcion = funcion;
 	}
 
-	@Override
-	public void setModificable(boolean modificable) {
-		this.modificable = modificable;
+	public DefFuncion getDefFuncionInvoca() {
+		return defFuncionInvoca;
+	}
+
+	public void setDefFuncionInvoca(DefFuncion defFuncionInvoca) {
+		this.defFuncionInvoca = defFuncionInvoca;
 	}
 
 	private String nombre;
 	private List<Expresion> argumentos;
+	private DefFuncion funcion;
 	private DefFuncion defFuncionInvoca;
-	private Tipo tipo;
-	private boolean modificable;
 }
 

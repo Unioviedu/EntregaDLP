@@ -61,13 +61,13 @@ return	{ return Parser.RETURN;		}
 "=="	{ return Parser.IGUAL;		}
 
 int		{ return Parser.INT;		}
-float	{ return Parser.REAL;		}
+float	{ return Parser.FLOAT;		}
 char	{ return Parser.CHAR;		}
 
 '[a-zA-Z]'						{ return Parser.CHARACTER; 	}
 [a-zA-Z_ñÑ][a-zA-Z0-9_ñÑ]*		{ return Parser.IDENT; 		}
 [0-9]+							{ return Parser.LITERALINT; }
-[0-9]+"."[0-9]*					{ return Parser.LITERALREAL;}
+[0-9]+"."[0-9]+					{ return Parser.LITERALREAL;}
 
 /* -- Se aconseja dejar estas reglas al final ----------------------------------------------- */
 

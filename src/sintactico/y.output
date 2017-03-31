@@ -46,7 +46,7 @@
 
   30  sentencia : "READ" expr ';'
   31            | "RETURN" exprOpt ';'
-  32            | callFunc ';'
+  32            | "IDENT" '(' listaParamOpt ')' ';'
   33            | sentenciaPrint
   34            | expr '=' expr ';'
   35            | "IF" '(' exprOpt ')' '{' sentencias '}' elseOpt
@@ -519,9 +519,9 @@ state 48
 
 	sentencia  goto 65
 	expr  goto 66
-	callFunc  goto 67
-	sentenciaPrint  goto 68
-	exprBinaria  goto 69
+	sentenciaPrint  goto 67
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 49
@@ -534,7 +534,7 @@ state 50
 	expr : '!' . expr  (51)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -542,12 +542,13 @@ state 50
 	"CAST"  shift 64
 	.  error
 
-	expr  goto 70
-	callFunc  goto 71
-	exprBinaria  goto 69
+	expr  goto 71
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 51
+	sentencia : "IDENT" . '(' listaParamOpt ')' ';'  (32)
 	expr : "IDENT" .  (48)
 	callFunc : "IDENT" . '(' listaParamOpt ')'  (67)
 
@@ -566,10 +567,6 @@ state 51
 	'/'  reduce 48
 	'.'  reduce 48
 	'['  reduce 48
-	';'  reduce 48
-	']'  reduce 48
-	')'  reduce 48
-	','  reduce 48
 	'='  reduce 48
 
 
@@ -589,7 +586,7 @@ state 54
 	expr : '(' . exprBinaria ')'  (50)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -598,15 +595,15 @@ state 54
 	.  error
 
 	expr  goto 73
-	callFunc  goto 71
 	exprBinaria  goto 74
+	callFunc  goto 69
 
 
 state 55
 	sentencia : "READ" . expr ';'  (30)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -615,8 +612,8 @@ state 55
 	.  error
 
 	expr  goto 75
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 56
@@ -624,7 +621,7 @@ state 56
 	exprOpt : .  (42)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -634,8 +631,8 @@ state 56
 
 	expr  goto 76
 	exprOpt  goto 77
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 57
@@ -656,7 +653,7 @@ state 59
 	sentenciaPrint : "PRINT" . expr ';'  (39)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -665,15 +662,15 @@ state 59
 	.  error
 
 	expr  goto 80
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 60
 	sentenciaPrint : "PRINTSP" . expr ';'  (40)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -682,8 +679,8 @@ state 60
 	.  error
 
 	expr  goto 81
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 61
@@ -691,7 +688,7 @@ state 61
 	exprOpt : .  (42)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -701,8 +698,8 @@ state 61
 
 	expr  goto 76
 	exprOpt  goto 82
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 62
@@ -766,40 +763,50 @@ state 66
 
 
 state 67
-	sentencia : callFunc . ';'  (32)
-	expr : callFunc .  (54)
-
-	';'  shift 99
-	"AND"  reduce 54
-	"OR"  reduce 54
-	'>'  reduce 54
-	'<'  reduce 54
-	"MENORIGUAL"  reduce 54
-	"MAYORIGUAL"  reduce 54
-	"NOTIGUAL"  reduce 54
-	"IGUAL"  reduce 54
-	'+'  reduce 54
-	'-'  reduce 54
-	'*'  reduce 54
-	'/'  reduce 54
-	'.'  reduce 54
-	'['  reduce 54
-	'='  reduce 54
-
-
-state 68
 	sentencia : sentenciaPrint .  (33)
 
 	.  reduce 33
 
 
-state 69
+state 68
 	expr : exprBinaria .  (49)
 
 	.  reduce 49
 
 
+state 69
+	expr : callFunc .  (54)
+
+	.  reduce 54
+
+
 state 70
+	expr : "IDENT" .  (48)
+	callFunc : "IDENT" . '(' listaParamOpt ')'  (67)
+
+	'('  shift 99
+	"AND"  reduce 48
+	"OR"  reduce 48
+	'>'  reduce 48
+	'<'  reduce 48
+	"MENORIGUAL"  reduce 48
+	"MAYORIGUAL"  reduce 48
+	"NOTIGUAL"  reduce 48
+	"IGUAL"  reduce 48
+	'+'  reduce 48
+	'-'  reduce 48
+	'*'  reduce 48
+	'/'  reduce 48
+	'.'  reduce 48
+	'['  reduce 48
+	';'  reduce 48
+	']'  reduce 48
+	')'  reduce 48
+	','  reduce 48
+	'='  reduce 48
+
+
+state 71
 	expr : '!' expr .  (51)
 	expr : expr . '.' "IDENT"  (52)
 	expr : expr . '[' expr ']'  (53)
@@ -837,18 +844,13 @@ state 70
 	'='  reduce 51
 
 
-state 71
-	expr : callFunc .  (54)
-
-	.  reduce 54
-
-
 state 72
+	sentencia : "IDENT" '(' . listaParamOpt ')' ';'  (32)
 	callFunc : "IDENT" '(' . listaParamOpt ')'  (67)
 	listaParamOpt : .  (70)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -857,9 +859,9 @@ state 72
 	')'  reduce 70
 
 	expr  goto 100
-	callFunc  goto 71
-	exprBinaria  goto 69
 	listaParamOpt  goto 101
+	exprBinaria  goto 68
+	callFunc  goto 69
 	listaParam  goto 102
 
 
@@ -999,7 +1001,7 @@ state 78
 	exprOpt : .  (42)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1009,8 +1011,8 @@ state 78
 
 	expr  goto 76
 	exprOpt  goto 106
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 79
@@ -1018,7 +1020,7 @@ state 79
 	exprOpt : .  (42)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1028,8 +1030,8 @@ state 79
 
 	expr  goto 76
 	exprOpt  goto 107
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 80
@@ -1127,7 +1129,7 @@ state 84
 	exprBinaria : expr "AND" . expr  (60)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1136,15 +1138,15 @@ state 84
 	.  error
 
 	expr  goto 112
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 85
 	exprBinaria : expr "OR" . expr  (59)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1153,15 +1155,15 @@ state 85
 	.  error
 
 	expr  goto 113
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 86
 	exprBinaria : expr '>' . expr  (62)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1170,15 +1172,15 @@ state 86
 	.  error
 
 	expr  goto 114
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 87
 	exprBinaria : expr '<' . expr  (61)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1187,15 +1189,15 @@ state 87
 	.  error
 
 	expr  goto 115
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 88
 	exprBinaria : expr "MENORIGUAL" . expr  (64)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1204,15 +1206,15 @@ state 88
 	.  error
 
 	expr  goto 116
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 89
 	exprBinaria : expr "MAYORIGUAL" . expr  (63)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1221,15 +1223,15 @@ state 89
 	.  error
 
 	expr  goto 117
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 90
 	exprBinaria : expr "NOTIGUAL" . expr  (65)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1238,15 +1240,15 @@ state 90
 	.  error
 
 	expr  goto 118
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 91
 	exprBinaria : expr "IGUAL" . expr  (66)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1255,15 +1257,15 @@ state 91
 	.  error
 
 	expr  goto 119
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 92
 	exprBinaria : expr '+' . expr  (56)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1272,15 +1274,15 @@ state 92
 	.  error
 
 	expr  goto 120
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 93
 	exprBinaria : expr '-' . expr  (58)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1289,15 +1291,15 @@ state 93
 	.  error
 
 	expr  goto 121
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 94
 	exprBinaria : expr '*' . expr  (55)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1306,15 +1308,15 @@ state 94
 	.  error
 
 	expr  goto 122
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 95
 	exprBinaria : expr '/' . expr  (57)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1323,8 +1325,8 @@ state 95
 	.  error
 
 	expr  goto 123
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 96
@@ -1338,7 +1340,7 @@ state 97
 	expr : expr '[' . expr ']'  (53)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1347,15 +1349,15 @@ state 97
 	.  error
 
 	expr  goto 125
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 98
 	sentencia : expr '=' . expr ';'  (34)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -1364,14 +1366,28 @@ state 98
 	.  error
 
 	expr  goto 126
-	callFunc  goto 71
-	exprBinaria  goto 69
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 99
-	sentencia : callFunc ';' .  (32)
+	callFunc : "IDENT" '(' . listaParamOpt ')'  (67)
+	listaParamOpt : .  (70)
 
-	.  reduce 32
+	'!'  shift 50
+	"IDENT"  shift 70
+	"LITERALINT"  shift 52
+	'('  shift 54
+	"LITERALREAL"  shift 62
+	"CHARACTER"  shift 63
+	"CAST"  shift 64
+	')'  reduce 70
+
+	expr  goto 100
+	listaParamOpt  goto 127
+	exprBinaria  goto 68
+	callFunc  goto 69
+	listaParam  goto 102
 
 
 state 100
@@ -1410,9 +1426,10 @@ state 100
 
 
 state 101
+	sentencia : "IDENT" '(' listaParamOpt . ')' ';'  (32)
 	callFunc : "IDENT" '(' listaParamOpt . ')'  (67)
 
-	')'  shift 127
+	')'  shift 128
 	.  error
 
 
@@ -1420,7 +1437,7 @@ state 102
 	listaParam : listaParam . ',' expr  (69)
 	listaParamOpt : listaParam .  (71)
 
-	','  shift 128
+	','  shift 129
 	')'  reduce 71
 
 
@@ -1445,14 +1462,14 @@ state 105
 state 106
 	sentencia : "IF" '(' exprOpt . ')' '{' sentencias '}' elseOpt  (35)
 
-	')'  shift 129
+	')'  shift 130
 	.  error
 
 
 state 107
 	sentencia : "WHILE" '(' exprOpt . ')' '{' sentencias '}'  (36)
 
-	')'  shift 130
+	')'  shift 131
 	.  error
 
 
@@ -1477,7 +1494,7 @@ state 110
 state 111
 	expr : "CAST" '<' tipo . '>' '(' expr ')'  (47)
 
-	'>'  shift 131
+	'>'  shift 132
 	.  error
 
 
@@ -1974,7 +1991,7 @@ state 125
 	'/'  shift 95
 	'.'  shift 96
 	'['  shift 97
-	']'  shift 132
+	']'  shift 133
 	.  error
 
 
@@ -2009,21 +2026,44 @@ state 126
 	'/'  shift 95
 	'.'  shift 96
 	'['  shift 97
-	';'  shift 133
+	';'  shift 134
 	.  error
 
 
 state 127
-	callFunc : "IDENT" '(' listaParamOpt ')' .  (67)
+	callFunc : "IDENT" '(' listaParamOpt . ')'  (67)
 
-	.  reduce 67
+	')'  shift 135
+	.  error
 
 
 state 128
+	sentencia : "IDENT" '(' listaParamOpt ')' . ';'  (32)
+	callFunc : "IDENT" '(' listaParamOpt ')' .  (67)
+
+	';'  shift 136
+	"AND"  reduce 67
+	"OR"  reduce 67
+	'>'  reduce 67
+	'<'  reduce 67
+	"MENORIGUAL"  reduce 67
+	"MAYORIGUAL"  reduce 67
+	"NOTIGUAL"  reduce 67
+	"IGUAL"  reduce 67
+	'+'  reduce 67
+	'-'  reduce 67
+	'*'  reduce 67
+	'/'  reduce 67
+	'.'  reduce 67
+	'['  reduce 67
+	'='  reduce 67
+
+
+state 129
 	listaParam : listaParam ',' . expr  (69)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -2031,45 +2071,57 @@ state 128
 	"CAST"  shift 64
 	.  error
 
-	expr  goto 134
-	callFunc  goto 71
-	exprBinaria  goto 69
-
-
-state 129
-	sentencia : "IF" '(' exprOpt ')' . '{' sentencias '}' elseOpt  (35)
-
-	'{'  shift 135
-	.  error
+	expr  goto 137
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
 state 130
-	sentencia : "WHILE" '(' exprOpt ')' . '{' sentencias '}'  (36)
+	sentencia : "IF" '(' exprOpt ')' . '{' sentencias '}' elseOpt  (35)
 
-	'{'  shift 136
+	'{'  shift 138
 	.  error
 
 
 state 131
-	expr : "CAST" '<' tipo '>' . '(' expr ')'  (47)
+	sentencia : "WHILE" '(' exprOpt ')' . '{' sentencias '}'  (36)
 
-	'('  shift 137
+	'{'  shift 139
 	.  error
 
 
 state 132
+	expr : "CAST" '<' tipo '>' . '(' expr ')'  (47)
+
+	'('  shift 140
+	.  error
+
+
+state 133
 	expr : expr '[' expr ']' .  (53)
 
 	.  reduce 53
 
 
-state 133
+state 134
 	sentencia : expr '=' expr ';' .  (34)
 
 	.  reduce 34
 
 
-state 134
+state 135
+	callFunc : "IDENT" '(' listaParamOpt ')' .  (67)
+
+	.  reduce 67
+
+
+state 136
+	sentencia : "IDENT" '(' listaParamOpt ')' ';' .  (32)
+
+	.  reduce 32
+
+
+state 137
 	expr : expr . '.' "IDENT"  (52)
 	expr : expr . '[' expr ']'  (53)
 	exprBinaria : expr . '*' expr  (55)
@@ -2104,29 +2156,29 @@ state 134
 	','  reduce 69
 
 
-state 135
+state 138
 	sentencia : "IF" '(' exprOpt ')' '{' . sentencias '}' elseOpt  (35)
 	sentencias : .  (28)
 
 	.  reduce 28
 
-	sentencias  goto 138
+	sentencias  goto 141
 
 
-state 136
+state 139
 	sentencia : "WHILE" '(' exprOpt ')' '{' . sentencias '}'  (36)
 	sentencias : .  (28)
 
 	.  reduce 28
 
-	sentencias  goto 139
+	sentencias  goto 142
 
 
-state 137
+state 140
 	expr : "CAST" '<' tipo '>' '(' . expr ')'  (47)
 
 	'!'  shift 50
-	"IDENT"  shift 51
+	"IDENT"  shift 70
 	"LITERALINT"  shift 52
 	'('  shift 54
 	"LITERALREAL"  shift 62
@@ -2134,19 +2186,19 @@ state 137
 	"CAST"  shift 64
 	.  error
 
-	expr  goto 140
-	callFunc  goto 71
-	exprBinaria  goto 69
+	expr  goto 143
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
-state 138
+state 141
 	sentencias : sentencias . sentencia  (29)
 	sentencia : "IF" '(' exprOpt ')' '{' sentencias . '}' elseOpt  (35)
 
 	'!'  shift 50
 	"IDENT"  shift 51
 	"LITERALINT"  shift 52
-	'}'  shift 141
+	'}'  shift 144
 	'('  shift 54
 	"READ"  shift 55
 	"RETURN"  shift 56
@@ -2162,19 +2214,19 @@ state 138
 
 	sentencia  goto 65
 	expr  goto 66
-	callFunc  goto 67
-	sentenciaPrint  goto 68
-	exprBinaria  goto 69
+	sentenciaPrint  goto 67
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
-state 139
+state 142
 	sentencias : sentencias . sentencia  (29)
 	sentencia : "WHILE" '(' exprOpt ')' '{' sentencias . '}'  (36)
 
 	'!'  shift 50
 	"IDENT"  shift 51
 	"LITERALINT"  shift 52
-	'}'  shift 142
+	'}'  shift 145
 	'('  shift 54
 	"READ"  shift 55
 	"RETURN"  shift 56
@@ -2190,12 +2242,12 @@ state 139
 
 	sentencia  goto 65
 	expr  goto 66
-	callFunc  goto 67
-	sentenciaPrint  goto 68
-	exprBinaria  goto 69
+	sentenciaPrint  goto 67
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
-state 140
+state 143
 	expr : "CAST" '<' tipo '>' '(' expr . ')'  (47)
 	expr : expr . '.' "IDENT"  (52)
 	expr : expr . '[' expr ']'  (53)
@@ -2226,15 +2278,15 @@ state 140
 	'/'  shift 95
 	'.'  shift 96
 	'['  shift 97
-	')'  shift 143
+	')'  shift 146
 	.  error
 
 
-state 141
+state 144
 	sentencia : "IF" '(' exprOpt ')' '{' sentencias '}' . elseOpt  (35)
 	elseOpt : .  (37)
 
-	"ELSE"  shift 144
+	"ELSE"  shift 147
 	'!'  reduce 37
 	"IDENT"  reduce 37
 	"LITERALINT"  reduce 37
@@ -2251,51 +2303,51 @@ state 141
 	"CHARACTER"  reduce 37
 	"CAST"  reduce 37
 
-	elseOpt  goto 145
+	elseOpt  goto 148
 
 
-state 142
+state 145
 	sentencia : "WHILE" '(' exprOpt ')' '{' sentencias '}' .  (36)
 
 	.  reduce 36
 
 
-state 143
+state 146
 	expr : "CAST" '<' tipo '>' '(' expr ')' .  (47)
 
 	.  reduce 47
 
 
-state 144
+state 147
 	elseOpt : "ELSE" . '{' sentencias '}'  (38)
 
-	'{'  shift 146
+	'{'  shift 149
 	.  error
 
 
-state 145
+state 148
 	sentencia : "IF" '(' exprOpt ')' '{' sentencias '}' elseOpt .  (35)
 
 	.  reduce 35
 
 
-state 146
+state 149
 	elseOpt : "ELSE" '{' . sentencias '}'  (38)
 	sentencias : .  (28)
 
 	.  reduce 28
 
-	sentencias  goto 147
+	sentencias  goto 150
 
 
-state 147
+state 150
 	sentencias : sentencias . sentencia  (29)
 	elseOpt : "ELSE" '{' sentencias . '}'  (38)
 
 	'!'  shift 50
 	"IDENT"  shift 51
 	"LITERALINT"  shift 52
-	'}'  shift 148
+	'}'  shift 151
 	'('  shift 54
 	"READ"  shift 55
 	"RETURN"  shift 56
@@ -2311,16 +2363,16 @@ state 147
 
 	sentencia  goto 65
 	expr  goto 66
-	callFunc  goto 67
-	sentenciaPrint  goto 68
-	exprBinaria  goto 69
+	sentenciaPrint  goto 67
+	exprBinaria  goto 68
+	callFunc  goto 69
 
 
-state 148
+state 151
 	elseOpt : "ELSE" '{' sentencias '}' .  (38)
 
 	.  reduce 38
 
 
 45 terminals, 25 nonterminals
-72 grammar rules, 149 states
+72 grammar rules, 152 states

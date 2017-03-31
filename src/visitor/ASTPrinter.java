@@ -232,6 +232,17 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
+	//	class CallFuncSent { String nombre;  List<Expresion> argumentos; }
+	public Object visit(CallFuncSent node, Object param) {
+		int indent = ((Integer)param).intValue();
+
+		printName(indent, "CallFuncSent", node, false);
+
+		print(indent + 1, "nombre", "String", node.getNombre());
+		visit(indent + 1, "argumentos", "List<Expresion>",node.getArgumentos());
+		return null;
+	}
+
 	//	class Condicional { Expresion expresion;  List<Sentencia> sentif;  List<Sentencia> sentelse; }
 	public Object visit(Condicional node, Object param) {
 		int indent = ((Integer)param).intValue();
@@ -280,26 +291,6 @@ public class ASTPrinter extends DefaultVisitor {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Print", node, false);
-
-		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
-		return null;
-	}
-
-	//	class Printsp { Expresion expresion; }
-	public Object visit(Printsp node, Object param) {
-		int indent = ((Integer)param).intValue();
-
-		printName(indent, "Printsp", node, false);
-
-		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
-		return null;
-	}
-
-	//	class Println { Expresion expresion; }
-	public Object visit(Println node, Object param) {
-		int indent = ((Integer)param).intValue();
-
-		printName(indent, "Println", node, false);
 
 		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
 		return null;

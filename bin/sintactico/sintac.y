@@ -74,20 +74,20 @@ parametro: 'IDENT' ':' tipo 		    {$$ = new Parametro($1, $3);					}
 sentencias: 						  		{$$ = new ArrayList();			}
 	| sentencias sentencia  		  		{$$ = $1; ((List)$1).add($2);	}
 	
-sentencia: 'READ' expr ';' 								  					{$$ = new Read($2);			}
-	| 'RETURN' exprOpt ';' 								  					{$$ = new Return($2);		}
-	| callFunc ';'		   								  					{$$ = $1;					}
+sentencia: 'READ' expr ';' 								  					{$$ = new Read($2);				}
+	| 'RETURN' exprOpt ';' 								  					{$$ = new Return($2);			}
+	| 'IDENT' '(' listaParamOpt ')' ';'		   								{$$ = new CallFuncSent($1, $3);	}
 	| sentenciaPrint
-	| expr '=' expr ';'													  	{$$ = new Asignacion($1, $3);}
+	| expr '=' expr ';'													  	{$$ = new Asignacion($1, $3);	}
 	| 'IF' '(' exprOpt ')' '{' sentencias '}' elseOpt	    				{$$ = new Condicional($3,$6,$8);}
-	| 'WHILE' '(' exprOpt ')' '{' sentencias '}'						    {$$ = new Bucle($3,$6);}
+	| 'WHILE' '(' exprOpt ')' '{' sentencias '}'						    {$$ = new Bucle($3,$6);			}	
 
 elseOpt:							{$$ = null; }
 	| 'ELSE' '{' sentencias '}'		{$$ = $3; 	} 				
 	
 sentenciaPrint: 'PRINT' expr ';'   	{$$ = new Print($2);	}
-	| 'PRINTSP' expr ';'		   	{$$ = new Printsp($2);	}
-	| 'PRINTLN' exprOpt ';'		   	{$$ = new Println($2);	}
+	| 'PRINTSP' expr ';'		   	{$$ = new Print($2);	}
+	| 'PRINTLN' exprOpt ';'		   	{$$ = new Print($2);	}
 
 exprOpt: 						   {$$ = null;				}
 	| expr 						   {$$ = $1;				}

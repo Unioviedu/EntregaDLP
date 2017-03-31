@@ -1,5 +1,5 @@
 /*
-Test para probar la Fase de Comprobación de Tipos
+Test para probar la Fase de Comprobaciï¿½n de Tipos
 
 COMPROBACION: El compilador del alumno debe detectar todos los errores indicados en los comentarios.
 
@@ -9,8 +9,8 @@ Por ejemplo:
 
 	print juan + anton;	// suma de dos estructuras 
 
-Lo anterior produce el error de que se están sumando dos expresiones de tipos no simples y además
-puede producir el error de que la expresión a imprimir tampoco es de tipo simple (al no quedar
+Lo anterior produce el error de que se estï¿½n sumando dos expresiones de tipos no simples y ademï¿½s
+puede producir el error de que la expresiï¿½n a imprimir tampoco es de tipo simple (al no quedar
 un tipo simple asociado a la suma al no haberse podido calcular su tipo).
 Estos errores derivados son normales y no es necesario intentar suprimirlos. 
 
@@ -30,8 +30,8 @@ g():Persona {	// Error: Retorno de tipo no simple
 
 }
 
-f(a:[10] int) {	// Los parámetros deben de ser tipos primitivos
-	return 25;	// El return no debe tener expresión en funciones void
+f(a:[10] int) {	// Los parï¿½metros deben de ser tipos primitivos
+	return 25;	// El return no debe tener expresiï¿½n en funciones void
 }
 
 h():int {
@@ -66,15 +66,15 @@ main() {
 	print f / 2.5;
 	
 	j(12, 12.5);
-	j(12, 12); // Tipo de los parámetros no coincide
-	j(12);		// Número de argumentos no coincide
-	j(12, 12.5, 4); // Número de argumentos no coincide
+	j(12, 12); // Tipo de los parï¿½metros no coincide
+	j(12);		// Nï¿½mero de argumentos no coincide
+	j(12, 12.5, 4); // Nï¿½mero de argumentos no coincide
 	
 	print main();	// No tiene tipo de retorno
 	print j(12, 12.5);
-	print j(12, 12); // Tipo de los parámetros no coincide
-	print j(12);		// Número de argumentos no coincide
-	print j(12, 12.5, 4); // Número de argumentos no coincide
+	print j(12, 12); // Tipo de los parï¿½metros no coincide
+	print j(12);		// Nï¿½mero de argumentos no coincide
+	print j(12, 12.5, 4); // Nï¿½mero de argumentos no coincide
 
 	print juan + anton;	// Deben ser tipos simples
 	print 2.5 * 2;		// Deben ser del mismo tipo
