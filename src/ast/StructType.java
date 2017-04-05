@@ -45,6 +45,14 @@ public class StructType extends AbstractTipo {
 	public String toString() {
 		return "StructType";
 	}
+	
+	@Override
+	public int getSize() {
+		int tamaño = 0;
+		for (DefCampoStruct d: struct.getDefcampostruct())
+			tamaño += d.getTipo().getSize();
+		return tamaño;
+	}
 
 	private String nombre;
 	private Struct struct;

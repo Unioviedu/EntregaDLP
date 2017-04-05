@@ -20,5 +20,10 @@ public class IntType extends AbstractTipo {
 		return "IntType";
 	}
 
+	@Override
+	public int getSize() {
+		return 2;
+	}
+
 }
 

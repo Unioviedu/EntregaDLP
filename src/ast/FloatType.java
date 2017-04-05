@@ -20,5 +20,10 @@ public class FloatType extends AbstractTipo {
 		return "FloatType";
 	}
 
+	@Override
+	public int getSize() {
+		return 4;
+	}
+
 }
 

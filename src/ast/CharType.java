@@ -20,5 +20,10 @@ public class CharType extends AbstractTipo {
 		return "CharType";
 	}
 
+	@Override
+	public int getSize() {
+		return 1;
+	}
+
 }
 

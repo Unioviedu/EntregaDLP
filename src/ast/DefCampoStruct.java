@@ -38,6 +38,14 @@ public class DefCampoStruct extends AbstractTraceable implements AST {
 		this.tipo = tipo;
 	}
 
+	public int getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(int direccion) {
+		this.direccion = direccion;
+	}
+
 	@Override
 	public Object accept(Visitor v, Object param) { 
 		return v.visit(this, param);
@@ -45,5 +53,6 @@ public class DefCampoStruct extends AbstractTraceable implements AST {
 
 	private String nombre;
 	private Tipo tipo;
+	private int direccion;
 }
 

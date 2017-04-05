@@ -11,10 +11,10 @@ import java.util.*;
 
 /**
  * ASTPrinter. Utilidad que ayuda a validar un arbol AST:
- * 	-	Muestra la estructura del árbol en HTML.
+ * 	-	Muestra la estructura del ï¿½rbol en HTML.
  * 	-	Destaca los hijos/propiedades a null.
- * 	-	Muestra a qué texto apuntan las posiciones de cada nodo (linea/columna)
- * 		ayudando a decidir cual de ellas usar en los errores y generación de código.
+ * 	-	Muestra a quï¿½ texto apuntan las posiciones de cada nodo (linea/columna)
+ * 		ayudando a decidir cual de ellas usar en los errores y generaciï¿½n de cï¿½digo.
  * 
  * Esta clase se genera con VGen. El uso de esta clase es opcional (puede eliminarse del proyecto). 
  * 
@@ -22,7 +22,7 @@ import java.util.*;
 public class ASTPrinter extends DefaultVisitor {
 
 	/**
-	 * toHtml. Muestra la estructura del AST indicando qué hay en las posiciones (linea y columna) de cada nodo.
+	 * toHtml. Muestra la estructura del AST indicando quï¿½ hay en las posiciones (linea y columna) de cada nodo.
 	 * 
 	 * @param sourceFile	El fichero del cual se ha obtenido el AST
 	 * @param raiz				El AST creado a partir de sourceFile
@@ -37,8 +37,8 @@ public class ASTPrinter extends DefaultVisitor {
 		toHtml(null, raiz, filename);
 	}
 
-	// tabWidth deberían ser los espacios correspondientes a un tabulador en eclipse.
-	// Normalmente no será necesario especificarlo. Usar mejor los dos métodos anteriores.
+	// tabWidth deberï¿½an ser los espacios correspondientes a un tabulador en eclipse.
+	// Normalmente no serï¿½ necesario especificarlo. Usar mejor los dos mï¿½todos anteriores.
 	public static void toHtml(String sourceFile, AST raiz, String filename, int tabWidth) {
 		try {
 			PrintWriter writer = new PrintWriter(new FileWriter(filename.endsWith(".html") ? filename : filename + ".html"));
@@ -52,7 +52,7 @@ public class ASTPrinter extends DefaultVisitor {
 			writer.println(ls + ls + "[ASTPrinter] --------------------------------");
 			generateFooter(writer);
 			writer.close();
-			System.out.println(ls + "ASTPrinter: Fichero '" + filename + ".html' generado con éxito. Abra el fichero para validar el árbol AST generado.");
+			System.out.println(ls + "ASTPrinter: Fichero '" + filename + ".html' generado con ï¿½xito. Abra el fichero para validar el ï¿½rbol AST generado.");
 		} catch (IOException e) {
 			System.out.println(ls + "ASTPrinter: No se ha podido crear el fichero " + filename);
 			e.printStackTrace();
@@ -116,6 +116,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 		print(indent + 1, "nombre", "String", node.getNombre());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
+		print(indent + 1, "direccion", "int", node.getDireccion());
 		return null;
 	}
 
@@ -152,6 +153,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 		print(indent + 1, "nombre", "String", node.getNombre());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
+		print(indent + 1, "direccion", "int", node.getDireccion());
 		return null;
 	}
 
@@ -163,6 +165,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 		print(indent + 1, "nombre", "String", node.getNombre());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
+		print(indent + 1, "direccion", "int", node.getDireccion());
 		return null;
 	}
 
@@ -395,7 +398,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	// -----------------------------------------------------------------
-	// Métodos invocados desde los métodos visit -----------------------
+	// Mï¿½todos invocados desde los mï¿½todos visit -----------------------
 
 	private void printName(int indent, String name, AST node, boolean empty) {
 		String text = ls + tabula(indent) + name + " &rarr;  ";
@@ -418,7 +421,7 @@ public class ASTPrinter extends DefaultVisitor {
 			writer.print(" " + valueTag(null));
 	}
 
-	// Versión compacta de una linea para nodos que solo tienen un atributo String
+	// Versiï¿½n compacta de una linea para nodos que solo tienen un atributo String
 	private void printCompact(int indent, String nodeName, AST node, String attName, Object value) {
 		String fullName = nodeName + '.' + attName;
 		String text = ls + tabula(indent) + '\"' + value + "\"  " + fullName;
@@ -445,7 +448,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	// -----------------------------------------------------------------
-	// Métodos auxiliares privados -------------------------------------
+	// Mï¿½todos auxiliares privados -------------------------------------
 
 	private void write(int indent, String text) {
 		writer.print(ls + tabula(indent) + text);
@@ -454,7 +457,7 @@ public class ASTPrinter extends DefaultVisitor {
 	private static String tabula(int count) {
 		StringBuffer cadena = new StringBuffer("<span class=\"dots\">");
 		for (int i = 0; i < count; i++)
-			cadena.append(i % 2 == 0 && i > 0 ? "|  " : "·  ");
+			cadena.append(i % 2 == 0 && i > 0 ? "|  " : "ï¿½  ");
 		return cadena.toString() + "</span>";
 	}
 
@@ -479,7 +482,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 
 	// -----------------------------------------------------------------
-	// Métodos para mostrar las Posiciones -----------------------------
+	// Mï¿½todos para mostrar las Posiciones -----------------------------
 
 	private String getPosition(Traceable node) {
 		String text = node.getStart() + "  " + node.getEnd();
@@ -537,10 +540,10 @@ public class ASTPrinter extends DefaultVisitor {
 			br.close();
 			return lines;
 		} catch (FileNotFoundException e) {
-			System.out.println("Warning. No se pudo encontrar el fichero fuente '" + sourceFile + "'. No se mostrará informaicón de posición.");
+			System.out.println("Warning. No se pudo encontrar el fichero fuente '" + sourceFile + "'. No se mostrarï¿½ informaicï¿½n de posiciï¿½n.");
 			return null;
 		} catch (IOException e) {
-			System.out.println("Warning. Error al leer del fichero fuente '" + sourceFile + "'. No se mostrará informaicón de posición.");
+			System.out.println("Warning. Error al leer del fichero fuente '" + sourceFile + "'. No se mostrarï¿½ informaicï¿½n de posiciï¿½n.");
 			return null;
 		}
 	}

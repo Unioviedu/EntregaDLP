@@ -26,9 +26,10 @@ import visitor.ASTPrinter;
  */
 public class Main {
 	static String[] entradas = {"entrada-0", "hipoteca-1", "prueba-2", 
-			"funciones-3", "estructuras-4", "variables-5", "testTipos-6"};
+			"funciones-3", "estructuras-4", "variables-5", "testTipos-6",
+			"testGestionMemoria-7"};
 	//public static final String[] programa = entradas;	// Entrada a usar durante el desarrollo
-	public static final String[] programa = { entradas[6] };	// Entrada a usar durante el desarrollo
+	public static final String[] programa = { entradas[7] };	// Entrada a usar durante el desarrollo
 	
 	public static void main(String[] args) throws Exception {
 		GestorErrores gestor = new GestorErrores();

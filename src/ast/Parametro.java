@@ -27,6 +27,7 @@ public class Parametro extends AbstractTraceable implements AST {
 	public String getNombre() {
 		return nombre;
 	}
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -34,8 +35,17 @@ public class Parametro extends AbstractTraceable implements AST {
 	public Tipo getTipo() {
 		return tipo;
 	}
+	
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
+	}
+
+	public int getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(int direccion) {
+		this.direccion = direccion;
 	}
 
 	@Override
@@ -45,5 +55,6 @@ public class Parametro extends AbstractTraceable implements AST {
 
 	private String nombre;
 	private Tipo tipo;
+	private int direccion;
 }
 

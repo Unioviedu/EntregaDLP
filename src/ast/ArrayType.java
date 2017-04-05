@@ -47,6 +47,11 @@ public class ArrayType extends AbstractTipo {
 	public String toString() {
 		return "ArrayType";
 	}
+	
+	@Override
+	public int getSize() {
+		return tipo.getSize() * dimension;
+	}
 
 	private int dimension;
 	private Tipo tipo;
