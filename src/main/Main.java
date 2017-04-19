@@ -29,7 +29,7 @@ public class Main {
 			"funciones-3", "estructuras-4", "variables-5", "testTipos-6",
 			"testGestionMemoria-7"};
 	//public static final String[] programa = entradas;	// Entrada a usar durante el desarrollo
-	public static final String[] programa = { entradas[7] };	// Entrada a usar durante el desarrollo
+	public static final String[] programa = { entradas[0] };	// Entrada a usar durante el desarrollo
 	
 	public static void main(String[] args) throws Exception {
 		GestorErrores gestor = new GestorErrores();
