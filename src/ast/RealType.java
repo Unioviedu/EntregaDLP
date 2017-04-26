@@ -21,5 +21,11 @@ public class RealType extends AbstractTipo {
 		return 0;
 	}
 
+	@Override
+	public String getSufijo() {
+		// TODO Auto-generated method stub
+		return "f";
+	}
+
 }
 

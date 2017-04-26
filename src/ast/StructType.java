@@ -56,5 +56,10 @@ public class StructType extends AbstractTipo {
 
 	private String nombre;
 	private Struct struct;
+	@Override
+	public String getSufijo() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 }
 
