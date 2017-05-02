@@ -60,9 +60,18 @@ public class Variable extends AbstractExpresion {
 		this.modificable = modificable;
 	}
 
+	public Ambito getAmbito() {
+		return ambito;
+	}
+
+	public void setAmbito(Ambito ambito) {
+		this.ambito = ambito;
+	}
+
 	private String nombre;
 	private DefVariable definicionVariable;
 	private Tipo tipo;
 	private boolean modificable;
+	private Ambito ambito;
 }
 

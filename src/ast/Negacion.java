@@ -57,5 +57,6 @@ public class Negacion extends AbstractExpresion {
 	private Expresion expresion;
 	private Tipo tipo;
 	private boolean modificable;
+	private int valor;
 }
 

@@ -10,20 +10,23 @@ import visitor.*;
 
 public class Caracter extends AbstractExpresion {
 
-	public Caracter(String valor) {
+	public Caracter(char valor) {
 		this.valor = valor;
 	}
 
 	public Caracter(Object valor) {
-		this.valor = (valor instanceof Token) ? ((Token)valor).getLexeme() : (String) valor;
+		if (valor instanceof Token)
+			this.valor = ((Token) valor).getLexeme().charAt(1);
+		else
+			this.valor = (char) valor;
 
 		searchForPositions(valor);	// Obtener linea/columna a partir de los hijos
 	}
 
-	public String getValor() {
+	public char getValor() {
 		return valor;
 	}
-	public void setValor(String valor) {
+	public void setValor(char valor) {
 		this.valor = valor;
 	}
 
@@ -52,7 +55,7 @@ public class Caracter extends AbstractExpresion {
 		this.modificable = modificable;
 	}
 
-	private String valor;
+	private char valor;
 	private Tipo tipo;
 	private boolean modificable;
 }

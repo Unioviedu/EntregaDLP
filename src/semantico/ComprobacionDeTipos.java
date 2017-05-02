@@ -1,5 +1,7 @@
 package semantico;
 
+import java.util.regex.Pattern;
+
 import ast.*;
 import main.*;
 import visitor.*;
@@ -56,6 +58,31 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		
 		return null;
 	}
+	
+	public Object visit(CallFunc node, Object param) {
+		super.visit(node, param);
+		
+		if (predicado(node.getArgumentos().size() == node.getDefFuncionInvoca().getParametro().size(),
+				"El numero de argumentos "+node.getArgumentos().size()+
+				" tiene que ser igual que los de la funcion "+node.getDefFuncionInvoca().getParametro().size(),
+				node.getStart()))
+			return null; //si no tienen el mismo numero, no hace falta comparar tipos
+		
+		int cont = 0;
+		for (Expresion p: node.getArgumentos()) {
+			Tipo callFunc = p.getTipo();
+			Tipo funcion = node.getDefFuncionInvoca().getParametro().get(cont).getTipo();
+			predicado(callFunc.getClass() == funcion.getClass(),
+			"El parametro "+cont+" tienen que ser del mismo tipo que el de su funcion y son: "+callFunc+", "+funcion,
+			node.getStart());
+			
+			cont++;
+		}
+		
+		node.setTipo(node.getDefFuncionInvoca().getTipo());
+		
+		return null;
+	}
 
 	public Object visit(Asignacion node, Object param) {
 
@@ -74,11 +101,6 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 	}
 	
 	public Object visit(Condicional node, Object param) {
-		super.visit(node, param);
-		
-		predicado(isIntType(node.getExpresion()), 
-				"La expresion del if debe ser de tipo entero, y es "+node.getExpresion().getTipo(), 
-				node.getExpresion().getStart());
 		
 		for (Sentencia sent: node.getSentif())
 			sent.setDefFuncion(node.getDefFuncion());
@@ -86,6 +108,12 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		if (node.getSentelse() != null)
 			for(Sentencia sent: node.getSentelse())
 				sent.setDefFuncion(node.getDefFuncion());
+		
+		super.visit(node, param);
+		
+		predicado(isIntType(node.getExpresion()), 
+				"La expresion del if debe ser de tipo entero, y es "+node.getExpresion().getTipo(), 
+				node.getExpresion().getStart());
 		
 		return null;
 	}
@@ -115,7 +143,6 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 	
 	public Object visit(Return node, Object param) {
 		super.visit(node, param);
-		
 		predicado(mismoTipo(node.getExpresion(), node.getDefFuncion().getTipo()),
 				"El tipo del retorno debe coincidir con el especificado",
 				node.getStart());
@@ -161,7 +188,7 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 	public Object visit(Variable node, Object param) {
 		
 		node.setTipo(node.getDefinicionVariable().getTipo());
-		node.setModificable(false);
+		node.setModificable(true);
 		
 		return null;
 	}
@@ -187,6 +214,8 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 	}
 	
 	public Object visit(Negacion node, Object param) {
+		
+		super.visit(node, param);
 		
 		predicado(isIntType(node.getExpresion()),
 				"La expresion debe ser de tipo entero, y es "+node.getExpresion().getTipo(),
@@ -214,6 +243,8 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 				"La expresion de acceso tiene que ser de tipo entero, y es "+node.getAcceso().getTipo(),
 				node.getAcceso().getStart());
 		
+		node.setModificable(true);
+		
 		return null;
 	}
 	
@@ -225,7 +256,11 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 				+" derecha: "+node.getRight().getTipo(),
 				node.getLeft().getStart());
 		
-		node.setTipo(node.getLeft().getTipo());
+		if (Pattern.matches("[+-/*]", node.getOperador()))
+			node.setTipo(node.getLeft().getTipo());
+		else
+			node.setTipo(new IntType());
+		
 		node.setModificable(false);
 		
 		return null;
@@ -249,21 +284,8 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 				"El campo no esta definido en el Struct",
 				node.getStart());
 		
-		return null;
-	}
-	
-	public Object visit(CallFunc node, Object param) {
-		super.visit(node, param);
+		node.setModificable(true);
 		
-		predicado(node.getArgumentos().size() == node.getDefFuncionInvoca().getParametro().size(),
-				"El numero de parametros tiene que ser igual que el de la funcion",
-				node.getStart());
-		
-		int cont = 0;
-		for (Expresion p: node.getArgumentos())
-			predicado(p.getTipo().getClass() == node.getDefFuncionInvoca().getParametro().get(cont).getTipo().getClass(),
-			"Los parametros tienen que ser del mismo tipo",
-			node.getStart());
 		return null;
 	}
 	
@@ -310,7 +332,7 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 			return false;
 		if (t2 == null)
 			return false;
-		return e1.getClass() == t2.getClass();
+		return e1.getTipo().getClass() == t2.getClass();
 	}
 	
 	private boolean isIntType(Expresion exp) {

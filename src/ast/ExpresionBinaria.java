@@ -77,5 +77,6 @@ public class ExpresionBinaria extends AbstractExpresion {
 	private Expresion right;
 	private Tipo tipo;
 	private boolean modificable;
+
 }
 

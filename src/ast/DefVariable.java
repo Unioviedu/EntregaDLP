@@ -51,8 +51,18 @@ public class DefVariable extends AbstractDefiniciones {
 		this.direccion = direccion;
 	}
 
+	public Parametro getParametro() {
+		return parametro;
+	}
+
+	public void setParametro(Parametro parametro) {
+		this.parametro = parametro;
+	}
 
 
+
+
+	private Parametro parametro;
 	private String nombre;
 	private Tipo tipo;
 	private int direccion;

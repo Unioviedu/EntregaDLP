@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ast.ArrayType;
+import ast.Ambito;
 import ast.CallFunc;
 import ast.CallFuncSent;
 import ast.DefCampoStruct;
@@ -41,7 +41,9 @@ public class Identificacion extends DefaultVisitor {
 		
 		DefVariable definicion = variables.getFromTop(node.getNombre());
 		predicado(definicion == null, "Parametro ya definido: "+ node.getNombre(), node.getStart());
-		variables.put(node.getNombre(), new DefVariable(node.getNombre(), node.getTipo()));
+		DefVariable variable = new DefVariable(node.getNombre(), node.getTipo());
+		variable.setParametro(node);
+		variables.put(node.getNombre(), variable);
 		
 		return null;
 	}
@@ -51,8 +53,16 @@ public class Identificacion extends DefaultVisitor {
 		
 		DefVariable definicion = variables.getFromAny(node.getNombre());
 		
+		if (variables.getFromTop(node.getNombre()) != null)
+			node.setAmbito(Ambito.LOCAL);
+		else if (definicion != null)
+			node.setAmbito(Ambito.GLOBAL);
+		
 		predicado(definicion != null, "Variable no definida: "+node.getNombre(), node.getStart());
 		node.setDefinicionVariable(definicion);
+		
+		if (node.getDefinicionVariable().getParametro() != null)
+			node.setAmbito(Ambito.PARAMETRO);
 		
 		return null;
 	}
@@ -71,6 +81,7 @@ public class Identificacion extends DefaultVisitor {
 	}
 	
 	public Object visit(CallFunc node, Object param) {
+		super.visit(node, param);
 		
 		DefFuncion definicion = funciones.get(node.getNombre());
 		predicado(definicion != null, "Funcion no definida: " + node.getNombre(), node.getStart());
@@ -80,6 +91,7 @@ public class Identificacion extends DefaultVisitor {
 	}
 	
 	public Object visit(CallFuncSent node, Object param) {
+		super.visit(node, param);
 		
 		DefFuncion definicion = funciones.get(node.getNombre());
 		predicado(definicion != null, "Funcion no definida: " + node.getNombre(), node.getStart());

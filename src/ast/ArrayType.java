@@ -55,5 +55,10 @@ public class ArrayType extends AbstractTipo {
 
 	private int dimension;
 	private Tipo tipo;
+	
+	@Override
+	public String getSufijo() {
+		return "";
+	}
 }
 
