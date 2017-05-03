@@ -22,8 +22,8 @@ var fibonacci:[8][3]int;
 p() {}
 
 
-f(paramReal:real, paramInt:int):int {
-  var localReal:real;
+f(paramReal:float, paramInt:int):int {
+  var localReal:float;
   var digito:char;
   var resultado:int;
  
@@ -67,7 +67,7 @@ main(){
   pareja.caracter = '0';
   pareja.entero = cast<int>('0');
 
-  print f(cast<real>(i), cast<int>(pareja.caracter));  // Sale 48 (código ASCII de '0')
+  print f(cast<float>(i), cast<int>(pareja.caracter));  // Sale 48 (cï¿½digo ASCII de '0')
   print '\n';
   f(1.3, 2);
  

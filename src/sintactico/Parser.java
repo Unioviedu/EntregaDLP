@@ -907,15 +907,15 @@ case 38:
 break;
 case 39:
 //#line 88 "sintac.y"
-{yyval = new Print(val_peek(1));	}
+{yyval = new Print(val_peek(1),"");	}
 break;
 case 40:
 //#line 89 "sintac.y"
-{yyval = new Print(val_peek(1));	}
+{yyval = new Print(val_peek(1)," ");	}
 break;
 case 41:
 //#line 90 "sintac.y"
-{yyval = new Print(val_peek(1));	}
+{yyval = new Print(val_peek(1),"/n");	}
 break;
 case 42:
 //#line 92 "sintac.y"

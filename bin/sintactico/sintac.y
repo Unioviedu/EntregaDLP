@@ -85,9 +85,9 @@ sentencia: 'READ' expr ';' 								  					{$$ = new Read($2);				}
 elseOpt:							{$$ = null; }
 	| 'ELSE' '{' sentencias '}'		{$$ = $3; 	} 				
 	
-sentenciaPrint: 'PRINT' expr ';'   	{$$ = new Print($2);	}
-	| 'PRINTSP' expr ';'		   	{$$ = new Print($2);	}
-	| 'PRINTLN' exprOpt ';'		   	{$$ = new Print($2);	}
+sentenciaPrint: 'PRINT' expr ';'   	{$$ = new Print($2,"");	}
+	| 'PRINTSP' expr ';'		   	{$$ = new Print($2," ");	}
+	| 'PRINTLN' exprOpt ';'		   	{$$ = new Print($2,"/n");	}
 
 exprOpt: 						   {$$ = null;				}
 	| expr 						   {$$ = $1;				}

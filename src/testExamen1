@@ -1,0 +1,10 @@
+struct Coche {
+	velocidad:float;
+	aceleracion:float;
+};
+
+struct Piloto {
+	inicial:char;  
+	crono:[3]float;	// Tiempos en la Q1, Q2 y Q3
+	coche:Coche;
+};

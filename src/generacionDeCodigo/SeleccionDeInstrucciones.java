@@ -89,22 +89,22 @@ public class SeleccionDeInstrucciones extends DefaultVisitor {
 	
 //	class Condicional { Expresion expresion;  List<Sentencia> sentif;  List<Sentencia> sentelse; }
 	public Object visit(Condicional node, Object param) {
-		tagIF++;
+		int n = tagIF++;
 		// super.visit(node, param);
 
 		//genera("#LINE");
 		node.getExpresion().accept(this, VALOR);
-		genera("JZ else"+tagIF);
+		genera("JZ else"+n);
 			for(Sentencia s: node.getSentif())
 				s.accept(this, param);
-			genera("JMP finalIF"+tagIF);
+			genera("JMP finalIF"+n);
 			
-			genera("else"+tagIF+":");	
+			genera("else"+n+":");	
 			if (node.getSentelse() != null) 
 				for(Sentencia s: node.getSentelse())
 					s.accept(this, param);
 			
-		genera("finalIF"+tagIF+":");
+		genera("finalIF"+n+":");
 		
 		return null;
 	}
@@ -113,18 +113,18 @@ public class SeleccionDeInstrucciones extends DefaultVisitor {
 	
 //	class Bucle { Expresion expresion;  List<Sentencia> sentencia; }
 	public Object visit(Bucle node, Object param) {
-		tagBucle++;
+		int n = tagBucle++;
 
 		// super.visit(node, param);
 
 		//genera("#LINE");
-		genera("inicio"+tagBucle+":");
+		genera("inicio"+n+":");
 		node.getExpresion().accept(this, VALOR);
-		genera("JZ finalBucle"+tagBucle);
+		genera("JZ finalBucle"+n);
 			for(Sentencia s: node.getSentencia())
 				s.accept(this, param);
-			genera("JMP inicio"+tagBucle);
-		genera("finalBucle"+tagBucle+":");
+			genera("JMP inicio"+n);
+		genera("finalBucle"+n+":");
 		
 		return null;
 	}
@@ -365,6 +365,9 @@ public class SeleccionDeInstrucciones extends DefaultVisitor {
 			ex.accept(this, VALOR);
 
 		genera("call "+node.getDefFuncionInvoca().getNombre());
+		
+		if (node.getDefFuncionInvoca().getTipo() != null)
+			genera("POP"+node.getDefFuncionInvoca().getTipo().getSufijo());
 
 		return null;
 	}

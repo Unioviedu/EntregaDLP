@@ -101,7 +101,7 @@ public class Identificacion extends DefaultVisitor {
 	}
 
 	public Object visit(Struct node, Object param) {
-		//super.visit(node, param);
+		super.visit(node, param);
 		
 		Struct definicion = structs.get(node.getNombre());
 		predicado(definicion == null, "Struct ya definido: " + node.getNombre(), node.getStart());
