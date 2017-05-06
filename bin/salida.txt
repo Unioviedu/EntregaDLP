@@ -9,21 +9,21 @@ ADD
 LOADi
 PUSH 0
 EQi
-JZ else0
+JZ else1
 PUSHA BP
 PUSH -4
 ADD
 PUSHf 1.0
 STOREf
-JMP finalIF0
-else0:
+JMP finalIF1
+else1:
 PUSHA BP
 PUSH 4
 ADD
 LOADi
 PUSH 0
 LTi
-JZ else0
+JZ else2
 PUSHA BP
 PUSH -4
 ADD
@@ -41,8 +41,8 @@ SUBi
 call potencia
 DIVf
 STOREf
-JMP finalIF0
-else0:
+JMP finalIF2
+else2:
 PUSHA BP
 PUSH -4
 ADD
@@ -51,14 +51,14 @@ PUSH 6
 ADD
 LOADf
 STOREf
-inicio0:
+inicio1:
 PUSHA BP
 PUSH 4
 ADD
 LOADi
 PUSH 1
 GTi
-JZ finalBucle0
+JZ finalBucle1
 PUSHA BP
 PUSH -4
 ADD
@@ -82,10 +82,10 @@ LOADi
 PUSH 1
 SUBi
 STOREi
-JMP inicio0
-finalBucle0:
-finalIF0:
-finalIF1:
+JMP inicio1
+finalBucle1:
+finalIF2:
+finalIF2:
 PUSHA BP
 PUSH -4
 ADD
