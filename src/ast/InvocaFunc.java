@@ -10,9 +10,9 @@ import visitor.*;
 
 //	callFunc:expresion -> nombre:String  argumentos:expresion*
 
-public class CallFunc extends AbstractExpresion {
+public class InvocaFunc extends AbstractExpresion {
 
-	public CallFunc(String nombre, List<Expresion> argumentos) {
+	public InvocaFunc(String nombre, List<Expresion> argumentos) {
 		this.nombre = nombre;
 		this.argumentos = argumentos;
 
@@ -20,7 +20,7 @@ public class CallFunc extends AbstractExpresion {
 	}
 
 	@SuppressWarnings("unchecked")
-	public CallFunc(Object nombre, Object argumentos) {
+	public InvocaFunc(Object nombre, Object argumentos) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getLexeme() : (String) nombre;
 		this.argumentos = (List<Expresion>) argumentos;
 

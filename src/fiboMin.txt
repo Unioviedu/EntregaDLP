@@ -1,0 +1,26 @@
+
+
+
+
+struct Empleado { edad:int; };
+
+struct Empresa { 
+	empleados:[2]Empleado;
+};
+
+
+var acme:[2]Empresa;
+
+
+//-------------------------------
+
+
+
+//-------------------------------
+
+main(){
+
+  acme[1].empleados[1].edad = 56;
+  //print acme[1].empleados[1].edad;	// Sale 56
+}
+

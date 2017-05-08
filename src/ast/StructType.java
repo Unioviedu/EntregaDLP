@@ -28,11 +28,11 @@ public class StructType extends AbstractTipo {
 		this.nombre = nombre;
 	}
 	
-	public void setStruct(Struct struct) {
+	public void setStruct(DefStruct struct) {
 		this.struct = struct;
 	}
 	
-	public Struct getStruct() {
+	public DefStruct getStruct() {
 		return struct;
 	}
 
@@ -55,7 +55,7 @@ public class StructType extends AbstractTipo {
 	}
 
 	private String nombre;
-	private Struct struct;
+	private DefStruct struct;
 	@Override
 	public String getSufijo() {
 		// TODO Auto-generated method stub

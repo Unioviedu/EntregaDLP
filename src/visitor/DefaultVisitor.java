@@ -28,7 +28,7 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	//	class Struct { String nombre;  List<DefCampoStruct> defcampostruct; }
-	public Object visit(Struct node, Object param) {
+	public Object visit(DefStruct node, Object param) {
 		visitChildren(node.getDefcampostruct(), param);
 		return null;
 	}
@@ -99,7 +99,7 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	//	class CallFuncSent { String nombre;  List<Expresion> argumentos; }
-	public Object visit(CallFuncSent node, Object param) {
+	public Object visit(InvocaFuncSent node, Object param) {
 		visitChildren(node.getArgumentos(), param);
 		return null;
 	}
@@ -188,7 +188,7 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	//	class CallArray { Expresion variable;  Expresion acceso; }
-	public Object visit(CallArray node, Object param) {
+	public Object visit(AccesoArray node, Object param) {
 		if (node.getVariable() != null)
 			node.getVariable().accept(this, param);
 		if (node.getAcceso() != null)
@@ -197,14 +197,14 @@ public class DefaultVisitor implements Visitor {
 	}
 
 	//	class CampoStruct { Expresion left;  String right; }
-	public Object visit(CampoStruct node, Object param) {
+	public Object visit(AccesoCampoStruct node, Object param) {
 		if (node.getLeft() != null)
 			node.getLeft().accept(this, param);
 		return null;
 	}
 
 	//	class CallFunc { String nombre;  List<Expresion> argumentos; }
-	public Object visit(CallFunc node, Object param) {
+	public Object visit(InvocaFunc node, Object param) {
 		visitChildren(node.getArgumentos(), param);
 		return null;
 	}

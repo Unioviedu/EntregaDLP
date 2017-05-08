@@ -36,7 +36,7 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		return null;
 	}
 	
-	public Object visit (CallFuncSent node, Object param) {
+	public Object visit (InvocaFuncSent node, Object param) {
 		super.visit(node, param);
 		
 		if (predicado(node.getArgumentos().size() == node.getDefFuncionInvoca().getParametro().size(),
@@ -59,7 +59,7 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		return null;
 	}
 	
-	public Object visit(CallFunc node, Object param) {
+	public Object visit(InvocaFunc node, Object param) {
 		super.visit(node, param);
 		
 		if (predicado(node.getArgumentos().size() == node.getDefFuncionInvoca().getParametro().size(),
@@ -91,6 +91,10 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		predicado(mismoTipo(node.getLeft(), node.getRight()),
 				"Las dos partes de la expresion tienen que ser del mismo tipo y son: "
 				+"izquierda: "+node.getLeft().getTipo()+ " derecha: "+node.getRight().getTipo(), 
+				node.getLeft().getStart());
+		
+		predicado(isPrimitivo(node.getLeft().getTipo()), 
+				"La parte izquierda tiene que ser simple ",
 				node.getLeft().getStart());
 		
 		predicado(node.getLeft().getModificable(), 
@@ -136,6 +140,10 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		
 		predicado(isPrimitivo(node.getExpresion().getTipo()),
 				"La expresion de lectura tiene que ser de tipo simple, y es "+node.getExpresion().getTipo(),
+				node.getExpresion().getStart());
+		
+		predicado(node.getExpresion().getModificable(),
+				"La expresion de lectura tiene que ser modificable",
 				node.getExpresion().getStart());
 		
 		return null;
@@ -227,7 +235,7 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 		return null;
 	}
 	
-	public Object visit(CallArray node, Object param) {
+	public Object visit(AccesoArray node, Object param) {
 		super.visit(node, param);
 		
 		if ( !predicado(node.getVariable().getTipo().getClass() == ArrayType.class,
@@ -256,17 +264,33 @@ public class ComprobacionDeTipos extends DefaultVisitor {
 				+" derecha: "+node.getRight().getTipo(),
 				node.getLeft().getStart());
 		
-		if (Pattern.matches("[+-/*]", node.getOperador()))
+		if (Pattern.matches("[+-/*]", node.getOperador())) {
+			predicado(isPrimitivo(node.getLeft().getTipo()),
+					"Las dos partes tienen que ser de tipo simple",
+					node.getLeft().getStart());
 			node.setTipo(node.getLeft().getTipo());
-		else
+			
+		} else if (Pattern.matches("&&||", node.getOperador())){
+			predicado(isIntType(node.getLeft()),
+					"Las dos partes tienen que ser enteras",
+					node.getLeft().getStart());
+			node.setTipo(node.getLeft().getTipo());
+			
+		} else {
+			
+			predicado(isPrimitivo(node.getLeft().getTipo()), 
+					"Las dos partes tienen que ser de tipo simple",
+					node.getLeft().getStart());
 			node.setTipo(new IntType());
+			
+		}
 		
 		node.setModificable(false);
 		
 		return null;
 	}
 	
-	public Object visit(CampoStruct node, Object param) {
+	public Object visit(AccesoCampoStruct node, Object param) {
 		super.visit(node, param);
 		
 		if ( !predicado(node.getLeft().getTipo().getClass() == StructType.class,

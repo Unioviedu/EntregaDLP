@@ -9,9 +9,9 @@ import visitor.*;
 
 //	struct:definiciones -> nombre:String  defcampostruct:defCampoStruct*
 
-public class Struct extends AbstractDefiniciones {
+public class DefStruct extends AbstractDefiniciones {
 
-	public Struct(String nombre, List<DefCampoStruct> defcampostruct) {
+	public DefStruct(String nombre, List<DefCampoStruct> defcampostruct) {
 		this.nombre = nombre;
 		this.defcampostruct = defcampostruct;
 
@@ -19,7 +19,7 @@ public class Struct extends AbstractDefiniciones {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Struct(Object nombre, Object defcampostruct) {
+	public DefStruct(Object nombre, Object defcampostruct) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getLexeme() : (String) nombre;
 		this.defcampostruct = (List<DefCampoStruct>) defcampostruct;
 

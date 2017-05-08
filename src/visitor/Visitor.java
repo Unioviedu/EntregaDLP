@@ -9,7 +9,7 @@ import ast.*;
 public interface Visitor {
 	public Object visit(Programa node, Object param);
 	public Object visit(DefVariable node, Object param);
-	public Object visit(Struct node, Object param);
+	public Object visit(DefStruct node, Object param);
 	public Object visit(DefFuncion node, Object param);
 	public Object visit(Parametro node, Object param);
 	public Object visit(DefCampoStruct node, Object param);
@@ -20,7 +20,7 @@ public interface Visitor {
 	public Object visit(StructType node, Object param);
 	public Object visit(ArrayType node, Object param);
 	public Object visit(Asignacion node, Object param);
-	public Object visit(CallFuncSent node, Object param);
+	public Object visit(InvocaFuncSent node, Object param);
 	public Object visit(Condicional node, Object param);
 	public Object visit(Bucle node, Object param);
 	public Object visit(Read node, Object param);
@@ -33,7 +33,7 @@ public interface Visitor {
 	public Object visit(Cast node, Object param);
 	public Object visit(ExpresionBinaria node, Object param);
 	public Object visit(Negacion node, Object param);
-	public Object visit(CallArray node, Object param);
-	public Object visit(CampoStruct node, Object param);
-	public Object visit(CallFunc node, Object param);
+	public Object visit(AccesoArray node, Object param);
+	public Object visit(AccesoCampoStruct node, Object param);
+	public Object visit(InvocaFunc node, Object param);
 }

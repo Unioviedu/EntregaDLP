@@ -28,8 +28,8 @@ definiciones: 					  		{$$ = new ArrayList();			}
 	| definiciones definicion	  		{$$ = $1; ((List)$1).add($2);	}
 
 definicion: defVariable 			  	{$$ = $1;	}
-	| struct 					  		{$$ = $1;	}
-	| deffuncion 				  		{$$ = $1;	}
+	| defStruct 					  	{$$ = $1;	}
+	| defFuncion 				  		{$$ = $1;	}
 	
 //VARIABLES--------
 
@@ -47,7 +47,7 @@ tipo: 'INT'							  	{$$ = new IntType();			}
 
 //STRUCTS----------
 
-struct: 'STRUCT' 'IDENT' '{' defCamposStruct '}' ';'  		{$$ = new Struct ($2, $4);		}
+defStruct: 'STRUCT' 'IDENT' '{' defCamposStruct '}' ';'  		{$$ = new DefStruct ($2, $4);		}
 
 defCamposStruct: 						  				{$$ = new ArrayList();			}
 	| defCamposStruct defCampoStruct					{$$ = $1; ((List)$$).add($2);	}
@@ -56,7 +56,7 @@ defCampoStruct: 'IDENT' ':' tipo ';' 				  	{$$ = new DefCampoStruct($1,$3);}
     
 //FUNCIONES--------
 
-deffuncion: 'IDENT' '('paramsFuncOpt')' valorRetorno '{' defVariables sentencias '}'		{$$ = new DefFuncion($1,$3,$5,$7,$8);	}
+defFuncion: 'IDENT' '('paramsFuncOpt')' valorRetorno '{' defVariables sentencias '}'		{$$ = new DefFuncion($1,$3,$5,$7,$8);	}
 
 valorRetorno:		{$$ = null;	}	
 	| ':' tipo		{$$ = $2;	}
@@ -74,20 +74,20 @@ parametro: 'IDENT' ':' tipo 		    {$$ = new Parametro($1, $3);					}
 sentencias: 						  		{$$ = new ArrayList();			}
 	| sentencias sentencia  		  		{$$ = $1; ((List)$1).add($2);	}
 	
-sentencia: 'READ' expr ';' 								  					{$$ = new Read($2);				}
-	| 'RETURN' exprOpt ';' 								  					{$$ = new Return($2);			}
-	| 'IDENT' '(' listaParamOpt ')' ';'		   								{$$ = new CallFuncSent($1, $3);	}
+sentencia: 'READ' expr ';' 								  					{$$ = new Read($2);					}
+	| 'RETURN' exprOpt ';' 								  					{$$ = new Return($2);				}
+	| 'IDENT' '(' listaParamOpt ')' ';'		   								{$$ = new InvocaFuncSent($1, $3);	}
 	| sentenciaPrint
-	| expr '=' expr ';'													  	{$$ = new Asignacion($1, $3);	}
-	| 'IF' '(' exprOpt ')' '{' sentencias '}' elseOpt	    				{$$ = new Condicional($3,$6,$8);}
-	| 'WHILE' '(' exprOpt ')' '{' sentencias '}'						    {$$ = new Bucle($3,$6);			}	
+	| expr '=' expr ';'													  	{$$ = new Asignacion($1, $3);		}
+	| 'IF' '(' exprOpt ')' '{' sentencias '}' elseOpt	    				{$$ = new Condicional($3,$6,$8);	}
+	| 'WHILE' '(' exprOpt ')' '{' sentencias '}'						    {$$ = new Bucle($3,$6);				}	
 
 elseOpt:							{$$ = null; }
 	| 'ELSE' '{' sentencias '}'		{$$ = $3; 	} 				
 	
-sentenciaPrint: 'PRINT' expr ';'   	{$$ = new Print($2);	}
-	| 'PRINTSP' expr ';'		   	{$$ = new Print($2);	}
-	| 'PRINTLN' exprOpt ';'		   	{$$ = new Print($2);	}
+sentenciaPrint: 'PRINT' expr ';'   	{$$ = new Print($2,"");	}
+	| 'PRINTSP' expr ';'		   	{$$ = new Print($2," ");	}
+	| 'PRINTLN' exprOpt ';'		   	{$$ = new Print($2,"\n");	}
 
 exprOpt: 						   {$$ = null;				}
 	| expr 						   {$$ = $1;				}
@@ -102,9 +102,9 @@ expr: 'LITERALINT' 						   {$$ = new LiteralInt($1);	}
 	| exprBinaria 						   {$$ = $1;					}
 	| '(' exprBinaria ')'				   {$$ = $2;					}
 	| '!' expr 							   {$$ = new Negacion($2);		}
-	| expr '.' 'IDENT' 					   {$$ = new CampoStruct($1,$3);} 
-	| expr '[' expr ']'		   		   	   {$$ = new CallArray($1, $3);	}
-	| callFunc 							   {$$ = $1;					}
+	| expr '.' 'IDENT' 					   {$$ = new AccesoCampoStruct($1,$3);} 
+	| expr '[' expr ']'		   		   	   {$$ = new AccesoArray($1, $3);	}
+	| invocaFunc 						   {$$ = $1;					}
 
 exprBinaria: expr '*' expr 		  	{$$ = new ExpresionBinaria($1,"*",$3);		}
 	| expr '+' expr 			  	{$$ = new ExpresionBinaria($1,"+",$3);		}		
@@ -119,7 +119,7 @@ exprBinaria: expr '*' expr 		  	{$$ = new ExpresionBinaria($1,"*",$3);		}
 	| expr 'NOTIGUAL' expr 		  	{$$ = new ExpresionBinaria($1,"!=",$3);		}		
 	| expr 'IGUAL' expr 		  	{$$ = new ExpresionBinaria($1,"==",$3);		}		
 
-callFunc: 'IDENT' '(' listaParamOpt ')'   	{$$ = new CallFunc($1, $3);			}
+invocaFunc: 'IDENT' '(' listaParamOpt ')'   	{$$ = new InvocaFunc($1, $3);	}
 
 listaParam: expr 				  	{$$ = new ArrayList(); ((List)$$).add($1); 	}
 	| listaParam ',' expr 		  	{$$ = $1; ((List)$$).add($3);				}

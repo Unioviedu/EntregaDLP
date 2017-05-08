@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import ast.Ambito;
-import ast.CallFunc;
-import ast.CallFuncSent;
+import ast.InvocaFunc;
+import ast.InvocaFuncSent;
 import ast.DefCampoStruct;
 import ast.DefFuncion;
 import ast.DefVariable;
 import ast.Parametro;
 import ast.Position;
-import ast.Struct;
+import ast.DefStruct;
 import ast.StructType;
 import ast.Variable;
 import main.GestorErrores;
@@ -80,7 +80,7 @@ public class Identificacion extends DefaultVisitor {
 		return null;
 	}
 	
-	public Object visit(CallFunc node, Object param) {
+	public Object visit(InvocaFunc node, Object param) {
 		super.visit(node, param);
 		
 		DefFuncion definicion = funciones.get(node.getNombre());
@@ -90,7 +90,7 @@ public class Identificacion extends DefaultVisitor {
 		return null;
 	}
 	
-	public Object visit(CallFuncSent node, Object param) {
+	public Object visit(InvocaFuncSent node, Object param) {
 		super.visit(node, param);
 		
 		DefFuncion definicion = funciones.get(node.getNombre());
@@ -100,10 +100,10 @@ public class Identificacion extends DefaultVisitor {
 		return null;
 	}
 
-	public Object visit(Struct node, Object param) {
-		//super.visit(node, param);
+	public Object visit(DefStruct node, Object param) {
+		super.visit(node, param);
 		
-		Struct definicion = structs.get(node.getNombre());
+		DefStruct definicion = structs.get(node.getNombre());
 		predicado(definicion == null, "Struct ya definido: " + node.getNombre(), node.getStart());
 		structs.put(node.getNombre(), node);
 		
@@ -119,7 +119,7 @@ public class Identificacion extends DefaultVisitor {
 	public Object visit(StructType node, Object param) {
 		super.visit(node, param);
 		
-		Struct ident = structs.get(node.getNombre());
+		DefStruct ident = structs.get(node.getNombre());
 		predicado(ident != null, "Struct no definido: " + node.getNombre(), node.getStart());
 		node.setStruct(ident); // Enlazar referencia con definición
 		
@@ -148,6 +148,6 @@ public class Identificacion extends DefaultVisitor {
 
 	private GestorErrores gestorErrores;
 	private Map<String, DefFuncion> funciones = new HashMap<String, DefFuncion>();
-	private Map<String, Struct> structs = new HashMap<String, Struct>();
+	private Map<String, DefStruct> structs = new HashMap<String, DefStruct>();
 	ContextMap<String, DefVariable> variables = new ContextMap<String, DefVariable>();
 }

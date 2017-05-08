@@ -8,16 +8,16 @@ import visitor.*;
 
 //	callArray:expresion -> variable:expresion  acceso:expresion
 
-public class CallArray extends AbstractExpresion {
+public class AccesoArray extends AbstractExpresion {
 
-	public CallArray(Expresion variable, Expresion acceso) {
+	public AccesoArray(Expresion variable, Expresion acceso) {
 		this.variable = variable;
 		this.acceso = acceso;
 
 		searchForPositions(variable, acceso);	// Obtener linea/columna a partir de los hijos
 	}
 
-	public CallArray(Object variable, Object acceso) {
+	public AccesoArray(Object variable, Object acceso) {
 		this.variable = (Expresion) variable;
 		this.acceso = (Expresion) acceso;
 

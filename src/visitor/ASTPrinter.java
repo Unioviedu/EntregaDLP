@@ -121,7 +121,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	//	class Struct { String nombre;  List<DefCampoStruct> defcampostruct; }
-	public Object visit(Struct node, Object param) {
+	public Object visit(DefStruct node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Struct", node, false);
@@ -236,7 +236,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	//	class CallFuncSent { String nombre;  List<Expresion> argumentos; }
-	public Object visit(CallFuncSent node, Object param) {
+	public Object visit(InvocaFuncSent node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "CallFuncSent", node, false);
@@ -365,7 +365,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	//	class CallArray { Expresion variable;  Expresion acceso; }
-	public Object visit(CallArray node, Object param) {
+	public Object visit(AccesoArray node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "CallArray", node, false);
@@ -376,7 +376,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	//	class CampoStruct { Expresion left;  String right; }
-	public Object visit(CampoStruct node, Object param) {
+	public Object visit(AccesoCampoStruct node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "CampoStruct", node, false);
@@ -387,7 +387,7 @@ public class ASTPrinter extends DefaultVisitor {
 	}
 
 	//	class CallFunc { String nombre;  List<Expresion> argumentos; }
-	public Object visit(CallFunc node, Object param) {
+	public Object visit(InvocaFunc node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "CallFunc", node, false);

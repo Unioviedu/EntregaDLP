@@ -28,8 +28,8 @@ public class GestionDeMemoria extends DefaultVisitor {
 			} else if (def.getClass() == DefFuncion.class) {
 				DefFuncion child = (DefFuncion) def;
 				child.accept(this, null);
-			} else if (def.getClass() == Struct.class) {
-				Struct child = (Struct) def;
+			} else if (def.getClass() == DefStruct.class) {
+				DefStruct child = (DefStruct) def;
 				child.accept(this, null);
 			}
 		}
@@ -57,7 +57,7 @@ public class GestionDeMemoria extends DefaultVisitor {
 		return null;
 	}
 	
-	public Object visit(Struct node, Object param) {
+	public Object visit(DefStruct node, Object param) {
 		
 		int sumaTamañoCampos = 0;
 		for (DefCampoStruct campo: node.getDefcampostruct()) {

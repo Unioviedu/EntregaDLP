@@ -8,16 +8,16 @@ import visitor.*;
 
 //	campoStruct:expresion -> left:expresion  right:String
 
-public class CampoStruct extends AbstractExpresion {
+public class AccesoCampoStruct extends AbstractExpresion {
 
-	public CampoStruct(Expresion left, String right) {
+	public AccesoCampoStruct(Expresion left, String right) {
 		this.left = left;
 		this.right = right;
 
 		searchForPositions(left);	// Obtener linea/columna a partir de los hijos
 	}
 
-	public CampoStruct(Object left, Object right) {
+	public AccesoCampoStruct(Object left, Object right) {
 		this.left = (Expresion) left;
 		this.right = (right instanceof Token) ? ((Token)right).getLexeme() : (String) right;
 

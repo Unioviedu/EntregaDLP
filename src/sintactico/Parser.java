@@ -503,8 +503,8 @@ final static String yyrule[] = {
 "definiciones :",
 "definiciones : definiciones definicion",
 "definicion : defVariable",
-"definicion : struct",
-"definicion : deffuncion",
+"definicion : defStruct",
+"definicion : defFuncion",
 "defVariables :",
 "defVariables : defVariables defVariable",
 "defVariable : \"VAR\" \"IDENT\" ':' tipo ';'",
@@ -514,11 +514,11 @@ final static String yyrule[] = {
 "tipo : \"CHAR\"",
 "tipo : \"IDENT\"",
 "tipo : '[' \"LITERALINT\" ']' tipo",
-"struct : \"STRUCT\" \"IDENT\" '{' defCamposStruct '}' ';'",
+"defStruct : \"STRUCT\" \"IDENT\" '{' defCamposStruct '}' ';'",
 "defCamposStruct :",
 "defCamposStruct : defCamposStruct defCampoStruct",
 "defCampoStruct : \"IDENT\" ':' tipo ';'",
-"deffuncion : \"IDENT\" '(' paramsFuncOpt ')' valorRetorno '{' defVariables sentencias '}'",
+"defFuncion : \"IDENT\" '(' paramsFuncOpt ')' valorRetorno '{' defVariables sentencias '}'",
 "valorRetorno :",
 "valorRetorno : ':' tipo",
 "paramsFunc : parametro",
@@ -552,7 +552,7 @@ final static String yyrule[] = {
 "expr : '!' expr",
 "expr : expr '.' \"IDENT\"",
 "expr : expr '[' expr ']'",
-"expr : callFunc",
+"expr : invocaFunc",
 "exprBinaria : expr '*' expr",
 "exprBinaria : expr '+' expr",
 "exprBinaria : expr '/' expr",
@@ -565,7 +565,7 @@ final static String yyrule[] = {
 "exprBinaria : expr \"MENORIGUAL\" expr",
 "exprBinaria : expr \"NOTIGUAL\" expr",
 "exprBinaria : expr \"IGUAL\" expr",
-"callFunc : \"IDENT\" '(' listaParamOpt ')'",
+"invocaFunc : \"IDENT\" '(' listaParamOpt ')'",
 "listaParam : expr",
 "listaParam : listaParam ',' expr",
 "listaParamOpt :",
@@ -819,7 +819,7 @@ case 15:
 break;
 case 16:
 //#line 50 "sintac.y"
-{yyval = new Struct (val_peek(4), val_peek(2));		}
+{yyval = new DefStruct (val_peek(4), val_peek(2));		}
 break;
 case 17:
 //#line 52 "sintac.y"
@@ -875,27 +875,27 @@ case 29:
 break;
 case 30:
 //#line 77 "sintac.y"
-{yyval = new Read(val_peek(1));				}
+{yyval = new Read(val_peek(1));					}
 break;
 case 31:
 //#line 78 "sintac.y"
-{yyval = new Return(val_peek(1));			}
+{yyval = new Return(val_peek(1));				}
 break;
 case 32:
 //#line 79 "sintac.y"
-{yyval = new CallFuncSent(val_peek(4), val_peek(2));	}
+{yyval = new InvocaFuncSent(val_peek(4), val_peek(2));	}
 break;
 case 34:
 //#line 81 "sintac.y"
-{yyval = new Asignacion(val_peek(3), val_peek(1));	}
+{yyval = new Asignacion(val_peek(3), val_peek(1));		}
 break;
 case 35:
 //#line 82 "sintac.y"
-{yyval = new Condicional(val_peek(5),val_peek(2),val_peek(0));}
+{yyval = new Condicional(val_peek(5),val_peek(2),val_peek(0));	}
 break;
 case 36:
 //#line 83 "sintac.y"
-{yyval = new Bucle(val_peek(4),val_peek(1));			}
+{yyval = new Bucle(val_peek(4),val_peek(1));				}
 break;
 case 37:
 //#line 85 "sintac.y"
@@ -907,15 +907,15 @@ case 38:
 break;
 case 39:
 //#line 88 "sintac.y"
-{yyval = new Print(val_peek(1));	}
+{yyval = new Print(val_peek(1),"");	}
 break;
 case 40:
 //#line 89 "sintac.y"
-{yyval = new Print(val_peek(1));	}
+{yyval = new Print(val_peek(1)," ");	}
 break;
 case 41:
 //#line 90 "sintac.y"
-{yyval = new Print(val_peek(1));	}
+{yyval = new Print(val_peek(1),"\n");	}
 break;
 case 42:
 //#line 92 "sintac.y"
@@ -959,11 +959,11 @@ case 51:
 break;
 case 52:
 //#line 105 "sintac.y"
-{yyval = new CampoStruct(val_peek(2),val_peek(0));}
+{yyval = new AccesoCampoStruct(val_peek(2),val_peek(0));}
 break;
 case 53:
 //#line 106 "sintac.y"
-{yyval = new CallArray(val_peek(3), val_peek(1));	}
+{yyval = new AccesoArray(val_peek(3), val_peek(1));	}
 break;
 case 54:
 //#line 107 "sintac.y"
@@ -1019,7 +1019,7 @@ case 66:
 break;
 case 67:
 //#line 122 "sintac.y"
-{yyval = new CallFunc(val_peek(3), val_peek(1));			}
+{yyval = new InvocaFunc(val_peek(3), val_peek(1));	}
 break;
 case 68:
 //#line 124 "sintac.y"
