@@ -31,7 +31,7 @@ public class Main {
 			"generacionCodigo2-10", "generacionCodigo3-11", "generacionCodigo4-12",
 			"pruebaFibonacci-13"};
 	//public static final String[] programa = entradas;	// Entrada a usar durante el desarrollo
-	public static final String[] programa = { entradas[6] };	// Entrada a usar durante el desarrollo
+	public static final String[] programa = { entradas[13] };	// Entrada a usar durante el desarrollo
 	
 	public static void main(String[] args) throws Exception {
 		GestorErrores gestor = new GestorErrores();
